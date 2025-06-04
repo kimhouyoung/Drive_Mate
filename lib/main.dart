@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'moudlea/choose/chooseview.dart';
 import 'moudlea/mainview.dart';
+import 'moudleb/moudleb.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: MainView(),
+      home: MoudleBView(),
     );
   }
 }

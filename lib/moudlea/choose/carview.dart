@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../moudleb/moudleb.dart';
 import 'camera.dart';
 
 class CarView extends StatefulWidget {
@@ -213,7 +214,10 @@ class _CarWidget extends State<CarView> {
                           ? null
                           : () {
                               if (_formKey.currentState!.validate()) {
-                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MoudleBView()),
+                                );
                               }
                             },
                       child: Text(

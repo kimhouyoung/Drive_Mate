@@ -28,7 +28,7 @@ class _CameraWidget extends State<CameraView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 100,
       height: 70,
         child: Row(
