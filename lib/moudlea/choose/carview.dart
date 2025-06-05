@@ -115,7 +115,6 @@ class _CarWidget extends State<CarView> {
                               }
                               return null;
                             },
-                            obscureText: true,
                             decoration: InputDecoration(
                               fillColor: Colors.white,
                               filled: true,

@@ -1,29 +1,99 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeButton extends StatefulWidget {
-  const HomeButton({super.key});
+  final bool isSelect1;
+  final VoidCallback onToggleSelect1;
+  final bool isSelect2;
+  final VoidCallback onToggleSelect2;
+  final bool isSelect3;
+  final VoidCallback onToggleSelect3;
+  final bool isSelect4;
+  final VoidCallback onToggleSelect4;
+
+  const HomeButton({
+    super.key,
+    required this.isSelect1,
+    required this.onToggleSelect1,
+    required this.isSelect2,
+    required this.onToggleSelect2,
+    required this.isSelect3,
+    required this.onToggleSelect3,
+    required this.isSelect4,
+    required this.onToggleSelect4,
+  });
 
   @override
-  State<HomeButton> createState() => _HomeButtonWidget();
+  State<HomeButton> createState() => HomeButtonState();
 }
 
-class _HomeButtonWidget extends State<HomeButton> {
-  bool isSelect1 = false;
-  bool isSelect2 = false;
-  bool isSelect3 = false;
-  bool isSelect4 = false;
-  Color backgroundColor1 = Colors.transparent;
-  Color iconColor1 = Colors.black;
-  Color backgroundColor2 = Colors.transparent;
-  Color iconColor2 = Colors.black;
-  Color backgroundColor3 = Colors.transparent;
-  Color iconColor3 = Colors.black;
-  Color backgroundColor4 = Colors.transparent;
-  Color iconColor4 = Colors.black;
+class HomeButtonState extends State<HomeButton> {
+  Timer? changeTimer;
+  bool isRed = true;
+
+  @override
+  void initState() {
+    super.initState();
+    startBlinkingTimer();
+  }
+
+  void startBlinkingTimer() {
+    changeTimer = Timer.periodic(Duration(milliseconds: 1000), (_) {
+      if (widget.isSelect4) {
+        setState(() {
+          isRed = !isRed;
+        });
+      } else {
+        if (isRed) {
+          setState(() {
+            isRed = false;
+          });
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    changeTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(HomeButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.isSelect4 && isRed) {
+      setState(() {
+        isRed = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final backgroundColor1 = widget.isSelect1
+        ? Colors.black
+        : Colors.transparent;
+    final iconColor1 = widget.isSelect1 ? Colors.white : Colors.black;
+    final backgroundColor2 = widget.isSelect2
+        ? Colors.black
+        : Colors.transparent;
+    final iconColor2 = widget.isSelect2 ? Colors.white : Colors.black;
+    final backgroundColor3 = widget.isSelect3
+        ? Colors.black
+        : Colors.transparent;
+    final iconColor3 = widget.isSelect3 ? Colors.white : Colors.black;
+    final backgroundColor4 = widget.isSelect4
+        ? Colors.black
+        : Colors.transparent;
+    final iconColor4 = widget.isSelect4
+        ? (isRed ? Colors.red : Colors.white)
+        : Colors.black;
+    final svgImage = widget.isSelect2
+        ? 'assets/images/lock.svg'
+        : 'assets/images/lockopen.svg';
     return Material(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -39,18 +109,7 @@ class _HomeButtonWidget extends State<HomeButton> {
                   ),
                   side: BorderSide(color: Colors.black),
                 ),
-                onPressed: () {
-                  setState(() {
-                    isSelect1 = !isSelect1;
-                    if (isSelect1) {
-                      backgroundColor1 = Colors.black;
-                      iconColor1 = Colors.white;
-                    } else {
-                      backgroundColor1 = Colors.transparent;
-                      iconColor1 = Colors.black;
-                    }
-                  });
-                },
+                onPressed: widget.onToggleSelect1,
                 icon: SvgPicture.asset(
                   'assets/images/power.svg',
                   color: iconColor1,
@@ -73,23 +132,8 @@ class _HomeButtonWidget extends State<HomeButton> {
                   ),
                   side: BorderSide(color: Colors.black),
                 ),
-                onPressed: () {
-                  setState(() {
-                    isSelect2 = !isSelect2;
-                    if (isSelect2) {
-                      backgroundColor2 = Colors.black;
-                      iconColor2 = Colors.white;
-                    } else {
-                      backgroundColor2 = Colors.transparent;
-                      iconColor2 = Colors.black;
-                    }
-                  });
-                },
-                icon: SvgPicture.asset(
-                  'assets/images/lockopen.svg',
-                  color: iconColor2,
-                  height: 45,
-                ),
+                onPressed: widget.onToggleSelect2,
+                icon: SvgPicture.asset(svgImage, color: iconColor2, height: 45),
               ),
               SizedBox(height: 10),
               Text('도어'),
@@ -107,18 +151,7 @@ class _HomeButtonWidget extends State<HomeButton> {
                   ),
                   side: BorderSide(color: Colors.black),
                 ),
-                onPressed: () {
-                  setState(() {
-                    isSelect3 = !isSelect3;
-                    if (isSelect3) {
-                      backgroundColor3 = Colors.black;
-                      iconColor3 = Colors.white;
-                    } else {
-                      backgroundColor3 = Colors.transparent;
-                      iconColor3 = Colors.black;
-                    }
-                  });
-                },
+                onPressed: widget.onToggleSelect3,
                 icon: SvgPicture.asset(
                   'assets/images/one door.svg',
                   color: iconColor3,
@@ -141,18 +174,7 @@ class _HomeButtonWidget extends State<HomeButton> {
                   ),
                   side: BorderSide(color: Colors.black),
                 ),
-                onPressed: () {
-                  setState(() {
-                    isSelect4 = !isSelect4;
-                    if (isSelect4) {
-                      backgroundColor4 = Colors.black;
-                      iconColor4 = Colors.red;
-                    } else {
-                      backgroundColor4 = Colors.transparent;
-                      iconColor4 = Colors.black;
-                    }
-                  });
-                },
+                onPressed: widget.onToggleSelect4,
                 icon: SvgPicture.asset(
                   'assets/images/warning.svg',
                   color: iconColor4,
@@ -162,7 +184,7 @@ class _HomeButtonWidget extends State<HomeButton> {
               SizedBox(height: 10),
               Text('비상등'),
             ],
-          )
+          ),
         ],
       ),
     );

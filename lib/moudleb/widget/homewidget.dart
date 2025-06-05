@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeBody extends StatelessWidget {
-  const HomeBody({super.key});
+  final String selectedImage;
+  final String selectedText;
+  final int kilometres;
+
+  const HomeBody({
+    super.key,
+    required this.selectedImage,
+    required this.selectedText,
+    required this.kilometres,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +26,16 @@ class HomeBody extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              stops: [0.75, 1],
-              colors: [Colors.grey, Colors.black87]),
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.75, 1],
+            colors: [Colors.grey, Colors.black87],
+          ),
         ),
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 24, top: 50, right: 24),
+              padding: EdgeInsets.only(left: 12, top: 37, right: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -32,23 +43,45 @@ class HomeBody extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            'I8',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 30,
-                              fontWeight: FontWeight.w600,
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              selectedText,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 30,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                          Icon(Icons.arrow_forward_ios, size: 15),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(Icons.arrow_forward_ios, size: 15),
+                          ),
                         ],
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      Icon(Icons.notifications_outlined),
-                      Icon(Icons.settings_outlined),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.notifications_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.settings_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -70,7 +103,7 @@ class HomeBody extends StatelessWidget {
                           Text('28.1°C'),
                         ],
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(height: 10),
                       Row(
                         children: [
                           Icon(Icons.my_location_outlined),
@@ -82,23 +115,33 @@ class HomeBody extends StatelessWidget {
                   Row(
                     children: [
                       Icon(Icons.local_gas_station_outlined),
-                      Text('424km'),
+                      Text(
+                        '$kilometres'
+                        'km',
+                        style: TextStyle(
+                          color: kilometres < 50
+                              ? Colors.red
+                              : (kilometres <= 100
+                                    ? Colors.blue
+                                    : Colors.black),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
             SizedBox(height: 50),
-            Image(
-              image: AssetImage('assets/common/i8.png'),
-              width: 320,
-              height: 180,
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Image.asset(selectedImage, width: 320, height: 180),
             ),
-
           ],
         ),
       ),
     );
   }
-
 }

@@ -1,9 +1,9 @@
+import 'package:drive_math/moudleb/widget/layoutview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../moudlea/choose/carview.dart';
-import 'homeview.dart';
 
 class MoudleBView extends StatefulWidget {
   const MoudleBView({super.key});
@@ -19,7 +19,8 @@ class _MoudleBWidget extends State<MoudleBView> {
     'assets/common/i8.png',
     'assets/common/q7.png',
   ];
-  List<String> carText = ['AUDI A8', 'BMW I8', 'q7'];
+
+  List<String> carText = ['AUDI A8', 'BMW I8', 'Q8'];
   int carIndex = 0;
 
   void _nextImage() {
@@ -126,9 +127,12 @@ class _MoudleBWidget extends State<MoudleBView> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomeView(),
-                      //   selectedImage: carImage[carIndex],
-                      // selectedText: carText[carIndex],
+                    MaterialPageRoute(
+                      builder: (context) => LayoutView(
+                        selectedImage: carImage[carIndex],
+                        selectedText: carText[carIndex],
+                      ),
+                    ),
                   );
                 },
                 child: Text(

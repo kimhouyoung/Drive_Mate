@@ -4,39 +4,53 @@ import 'package:drive_math/moudleb/widget/homewidget.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView(List<String> carImage, List<String> carText, {super.key, required String selectedImage, required String selectedText});
+  final String selectedImage;
+  final String selectedText;
 
+  const HomeView({
+    super.key,
+    required this.selectedImage,
+    required this.selectedText,
+  });
 
   @override
   State<HomeView> createState() => _HomeWidget();
 }
 
 class _HomeWidget extends State<HomeView> {
+  bool isSelect1 = false;
+
+  void toggleSelect1() {
+    setState(() {
+      isSelect1 = !isSelect1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Column(
-        children: [
-          HomeBody(),
-          SizedBox(height: 10),
-          HomeButton(),
-          SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+      child: RefreshIndicator(
+        onRefresh: () async {
+          await Future.delayed(Duration(milliseconds: 1000));
+          setState(() {});
+        },
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.only(left: 24),
-                child: Text(
-                  '홍길동님,안녕하세요?',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-                ),
+              HomeBody(
+                selectedImage: widget.selectedImage,
+                selectedText: widget.selectedText,
+                kilometres: 40,
               ),
+              SizedBox(height: 15),
+              HomeMain(
+                selectedImage: widget.selectedImage,
+                selectedText: widget.selectedText,
+              ),
+              SizedBox(height: 100),
             ],
           ),
-          SizedBox(height: 15),
-          HomeMain(),
-          //BottomNavigationBar(items: items),
-        ],
+        ),
       ),
     );
   }
