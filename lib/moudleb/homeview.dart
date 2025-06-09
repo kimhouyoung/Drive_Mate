@@ -34,7 +34,6 @@ class _HomeWidget extends State<HomeView> {
           await Future.delayed(Duration(milliseconds: 1000));
           setState(() {});
         },
-
         child: SingleChildScrollView(
           child: Column(
             children: [
